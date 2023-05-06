@@ -1,4 +1,4 @@
-reg [25:0]count = 0;
+integer count = 0;
 reg DividedClk = 0;
 always @(posedge clk) 
 begin: ClockDivider
