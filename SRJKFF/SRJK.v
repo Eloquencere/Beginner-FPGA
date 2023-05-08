@@ -47,7 +47,7 @@ module SRJK(clk , S, R, rst, switch, SRQ, SRQB, ClkDisp);
         else
         begin
             case ({S,R})
-            2'b00: SRQ <=SRQ;
+            2'b00: SRQ <= SRQ;
             2'b01: SRQ <= 1'b0;
             2'b10: SRQ <= 1'b1;
             2'b11: begin if(switch) SRQ <= 1'bx; else SRQ <= ~SRQ; end
