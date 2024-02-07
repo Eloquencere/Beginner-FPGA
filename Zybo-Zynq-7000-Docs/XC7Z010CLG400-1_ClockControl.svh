@@ -1,16 +1,26 @@
 `timescale 1ns / 1ps // Smallest period possible / Considering other delays
 
-module ClockDivider #(parameter int MasterPeriod = 8/*ns*/, int Division = 1)(input bit MasterClock, output bit DividedClock);
-    parameter int TargetCount = Division*MasterPeriod;
+// forever #8 masterClk = ~masterClk
+
+module ClockDivider
+#(
+    parameter division = 1
+)
+(   
+    input bit masterClock, 
+    output bit dividedClock
+);
+    localparam targetCount = (division >> 1) - 1; // targetCount only for half of the period
     
-    int count;
-    always @(posedge MasterClock)
+    int count = 0;
+    
+    always_ff @(posedge masterClock)
     begin
-        count++;
-        if(count == TargetCount)
+        if(count == targetCount)
         begin
-            DividedClock <= ~DividedClock;
-            count <= 0;
+            count <= 1'b0;
+            dividedClock <= ~dividedClock;
         end
+        else count <= count + 1;
     end
 endmodule
